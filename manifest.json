@@ -1,9 +1,0 @@
-
-{
-"name":"Little Star Olympiad",
-"short_name":"LittleStar",
-"display":"standalone",
-"start_url":"./index.html",
-"background_color":"#d8e64f",
-"theme_color":"#d8e64f"
-}
