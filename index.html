@@ -1,0 +1,56 @@
+
+<!DOCTYPE html><html><head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Captain Star V2</title>
+<style>
+body{font-family:Arial;background:linear-gradient(#87CEEB,#FFF59D);padding:10px}
+#app{max-width:650px;margin:auto;background:#fff;padding:20px;border-radius:25px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+h1,h2{text-align:center} button{width:100%;padding:16px;margin:8px 0;border:none;border-radius:18px;font-size:22px;font-weight:bold}
+.opt:nth-child(1){background:#F8BBD0}.opt:nth-child(2){background:#81D4FA}.opt:nth-child(3){background:#A5D6A7}.opt:nth-child(4){background:#FFE082}
+#emoji{display:flex;justify-content:space-evenly;flex-wrap:wrap;font-size:64px;margin:20px 0}
+#q,#status,#msg{text-align:center}#q{font-size:28px;font-weight:bold}#status,#msg{font-size:22px}
+</style></head><body><div id="app"></div>
+<script>
+const D={
+Comparing:[
+{q:"Who is BIGGER?",e:["🐜","🐘","🐭","🐦"],o:["Ant","Elephant","Mouse","Bird"],a:1},
+{q:"Who is TALLER?",e:["🐇","🐱","🦒","🐶"],o:["Rabbit","Cat","Giraffe","Dog"],a:2},
+{q:"Which is HEAVIER?",e:["🍃","🪶","🍉","🫧"],o:["Leaf","Feather","Watermelon","Bubble"],a:2},
+{q:"Which is SMALLER?",e:["🐳","🦋","🚌","🚂"],o:["Whale","Butterfly","Bus","Train"],a:1},
+{q:"Find the ODD one",e:["🍎","🍌","🚗","🥭"],o:["Apple","Banana","Car","Mango"],a:2}],
+Numbers:[
+{q:"What comes after 17?",e:["16","18","19","20"],o:["16","18","19","20"],a:1},
+{q:"What comes before 30?",e:["28","29","30","31"],o:["28","29","30","31"],a:1},
+{q:"Count ⭐⭐⭐⭐⭐⭐⭐",e:["5","6","7","8"],o:["5","6","7","8"],a:2},
+{q:"Which is greater?",e:["9","12","7","5"],o:["9","12","7","5"],a:1},
+{q:"Number name of 8",e:["6","7","8","9"],o:["Six","Seven","Eight","Nine"],a:2}],
+Shapes:[
+{q:"3 sides?",e:["⚪","🔺","⬜","❤️"],o:["Circle","Triangle","Square","Heart"],a:1},
+{q:"Birthday cap?",e:["🔺","🧊","⚽","📦"],o:["Cone","Cube","Sphere","Box"],a:0},
+{q:"Ball shape?",e:["⚽","📦","🔺","🧊"],o:["Sphere","Box","Cone","Cube"],a:0},
+{q:"4 equal sides?",e:["⬜","⚪","❤️","⭐"],o:["Square","Circle","Heart","Star"],a:0},
+{q:"Looks like cone?",e:["🍦","⚽","📦","🧊"],o:["Cone","Sphere","Box","Cube"],a:0}]
+};
+let cur=[],i=0,s=0;
+function menu(){
+app.innerHTML=`<h1>🚀 Captain Star's Olympiad</h1><h2>Select Category</h2>
+<button onclick="start('Comparing')">Comparing Objects</button>
+<button onclick="start('Numbers')">Understanding Numbers</button>
+<button onclick="start('Shapes')">Shapes</button>
+<button onclick="start('Mixed')">Mixed Practice</button>`;
+}
+function start(c){cur=(c=='Mixed')?[...D.Comparing,...D.Numbers,...D.Shapes]:D[c];i=0;s=0;show();}
+function show(){
+let x=cur[i];
+app.innerHTML=`<h1>🚀 Captain Star's Olympiad</h1><div id=status>Question ${i+1}/${cur.length} ⭐ ${s}</div><div id=emoji>${x.e.map(v=>`<span>${v}</span>`).join('')}</div><div id=q>${x.q}</div><div id=ops></div><div id=msg></div>`;
+x.o.forEach((v,n)=>{let b=document.createElement('button');b.className='opt';b.innerText=String.fromCharCode(65+n)+'. '+v;b.onclick=()=>ans(n);ops.appendChild(b);});
+}
+function ans(n){
+let x=cur[i];
+document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+msg.innerText=n==x.a?'🎉 Great Job!':'😊 Correct Answer: '+x.o[x.a];
+if(n==x.a)s++;
+setTimeout(()=>{i++; if(i<cur.length)show(); else app.innerHTML=`<h1>🏆 Finished!</h1><h2>Score ${s}/${cur.length}</h2><button onclick='menu()'>Play Again</button>`;},1200);
+}
+menu();
+</script></body></html>
