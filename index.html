@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<title>Captain Star Quiz</title>
+<style>
+body{font-family:Arial;margin:0;padding:10px;background:linear-gradient(#87CEEB,#FFF59D);}
+.card{max-width:600px;margin:auto;background:#fff;border-radius:25px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+h1{text-align:center}
+#status{text-align:center;font-size:22px;font-weight:bold}
+#emojiRow{display:flex;justify-content:space-evenly;flex-wrap:wrap;font-size:64px;margin:20px 0}
+#question{text-align:center;font-size:30px;font-weight:bold;margin:20px 0}
+.opt{width:100%;padding:18px;margin:8px 0;border:none;border-radius:18px;font-size:24px;font-weight:bold}
+.opt:nth-child(1){background:#F8BBD0}
+.opt:nth-child(2){background:#81D4FA}
+.opt:nth-child(3){background:#A5D6A7}
+.opt:nth-child(4){background:#FFE082}
+#msg{text-align:center;font-size:24px;min-height:40px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>🚀 Captain Star's Quiz</h1>
+<div id="status"></div>
+<div id="emojiRow"></div>
+<div id="question"></div>
+<div id="options"></div>
+<div id="msg"></div>
+</div>
+
+<script>
+const quiz=[
+{q:"Who is BIGGER?",emojis:["🐜","🐘","🐭","🐦"],opts:["Ant","Elephant","Mouse","Bird"],a:1},
+{q:"Who is TALLER?",emojis:["🐇","🐱","🦒","🐶"],opts:["Rabbit","Cat","Giraffe","Dog"],a:2},
+{q:"Which is HEAVIER?",emojis:["🍃","🪶","🍉","🫧"],opts:["Leaf","Feather","Watermelon","Bubble"],a:2},
+{q:"Which shape has 3 sides?",emojis:["⚪","🔺","⬜","❤️"],opts:["Circle","Triangle","Square","Heart"],a:1},
+{q:"Which shape is a birthday cap?",emojis:["🔺","🧊","⚽","📦"],opts:["Cone","Cube","Sphere","Box"],a:0},
+{q:"Count these stars: ⭐⭐⭐⭐⭐⭐⭐",emojis:["5️⃣","6️⃣","7️⃣","8️⃣"],opts:["Five","Six","Seven","Eight"],a:2},
+{q:"What comes after 17?",emojis:["1️⃣6️⃣","1️⃣8️⃣","1️⃣9️⃣","2️⃣0️⃣"],opts:["16","18","19","20"],a:1},
+{q:"What comes before 30?",emojis:["2️⃣8️⃣","2️⃣9️⃣","3️⃣0️⃣","3️⃣1️⃣"],opts:["28","29","30","31"],a:1},
+{q:"Arrange from SMALL to BIG",emojis:["9️⃣","2️⃣","5️⃣","📈"],opts:["2,5,9","9,5,2","5,9,2","2,9,5"],a:0},
+{q:"Find the ODD one out",emojis:["🍎","🍌","🚗","🥭"],opts:["Apple","Banana","Car","Mango"],a:2}
+];
+
+let i=0,score=0;
+function load(){
+ let x=quiz[i];
+ status.innerText=`Question ${i+1}/${quiz.length}   ⭐ ${score}`;
+ emojiRow.innerHTML=x.emojis.map(e=>`<span>${e}</span>`).join("");
+ question.innerText=x.q;
+ msg.innerText="";
+ options.innerHTML="";
+ x.opts.forEach((o,idx)=>{
+   options.innerHTML += `<button class='opt' onclick='answer(${idx})'>${String.fromCharCode(65+idx)}. ${o}</button>`;
+ });
+}
+function answer(n){
+ document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+ if(n===quiz[i].a){
+   score++;
+   msg.innerText="🎉 Great Job! You earned a star!";
+ }else{
+   msg.innerText="😊 Correct Answer: "+quiz[i].opts[quiz[i].a];
+ }
+ setTimeout(()=>{
+   i++;
+   if(i<quiz.length){load();}
+   else{
+      document.querySelector('.card').innerHTML=
+      `<h1>🏆 Congratulations!</h1>
+       <h2 style='text-align:center'>Score: ${score}/${quiz.length}</h2>
+       <p style='text-align:center;font-size:26px'>Captain Star is proud of you! ⭐</p>`;
+   }
+ },1800);
+}
+load();
+</script>
+</body>
+</html>
